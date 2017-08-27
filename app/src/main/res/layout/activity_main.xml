@@ -13,37 +13,8 @@
         android:id="@+id/bluetooth_pair_button"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="블루투스 페어링"/>
-
-
-    <RelativeLayout
-        android:id="@+id/button_area"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-        <ImageButton
-            android:id="@+id/up_button"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:src="@drawable/ic_arrow_upward" />
-        <ImageButton
-            android:id="@+id/left_button"
-            android:layout_width="200dp"
-            android:layout_height="180dp"
-            android:layout_below="@id/up_button"
-            android:src="@drawable/ic_arrow_left"/>
-        <ImageButton
-            android:id="@+id/right_button"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:src="@drawable/ic_arrow_right"
-            android:layout_below="@+id/up_button"
-            android:layout_marginLeft="200dp"/>
-        <ImageButton
-            android:id="@+id/down_button"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:layout_below="@+id/left_button"
-            android:src="@drawable/ic_arrow_down"/>
-    </RelativeLayout>
+        android:background="#FFFFFF"
+        android:textSize="50dp"
+        android:text="블루투스 페어링"
+        android:textColor="#1E88E5"/>
 </RelativeLayout>

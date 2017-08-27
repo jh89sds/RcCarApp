@@ -6,52 +6,39 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends CommonActivity {
 
     BluetoothAdapter mBluetoothAdapter;
 
-    BluetoothDevice bluetoothDevice;
-
-    Button bluetoothPairButton;
+    View bluetoothPairButton;
 
     static final int REQUEST_ENABLE_BT = 10;
     private Set<BluetoothDevice> mDevices;
     private int mPariedDeviceCount;
     private BluetoothDevice mRemoteDevie;
     private BluetoothSocket mSocket;
-    private OutputStream mOutputStream;
-    private InputStream mInputStream;
-
-    RelativeLayout buttonArea;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bluetoothPairButton = ((Button) findViewById(R.id.bluetooth_pair_button));
+        bluetoothPairButton = findViewById(R.id.bluetooth_pair_button);
         bluetoothPairButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkBluetoothAdapter();
             }
         });
-
-        buttonArea = ((RelativeLayout) findViewById(R.id.button_area));
     }
 
     private void checkBluetoothAdapter() {
@@ -160,62 +147,17 @@ public class MainActivity extends AppCompatActivity {
             mSocket = mRemoteDevie.createRfcommSocketToServiceRecord(uuid);
             mSocket.connect(); // 소켓이 생성 되면 connect() 함수를 호출함으로써 두기기의 연결은 완료된다.
 
-            // 데이터 송수신을 위한 스트림 얻기.
-            // BluetoothSocket 오브젝트는 두개의 Stream을 제공한다.
-            // 1. 데이터를 보내기 위한 OutputStrem
-            // 2. 데이터를 받기 위한 InputStream
-            mOutputStream = mSocket.getOutputStream();
-            mInputStream = mSocket.getInputStream();
+            SocketSingleton.setSocket(mSocket);
+
 
             // 데이터 수신 준비.
             //beginListenForData();
 
-            bluetoothPairButton.setVisibility(View.GONE);
+            Intent intent = new Intent(MainActivity.this, ButtonControlActivity.class);
 
-            buttonArea.setVisibility(View.VISIBLE);
-
-            setButtons();
-
+            startActivity(intent);
         }catch(Exception e) { // 블루투스 연결 중 오류 발생
             Toast.makeText(getApplicationContext(), "블루투스 연결 중 오류가 발생했습니다.", Toast.LENGTH_LONG).show();
-            finish();  // App 종료
-        }
-    }
-
-    private void setButtons() {
-        findViewById(R.id.up_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendData("f");
-            }
-        });
-        findViewById(R.id.left_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendData("l");
-            }
-        });
-        findViewById(R.id.right_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendData("r");
-            }
-        });
-        findViewById(R.id.down_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendData("b");
-            }
-        });
-    }
-
-    private void sendData(String msg) {
-        try{
-            // getBytes() : String을 byte로 변환
-            // OutputStream.write : 데이터를 쓸때는 write(byte[]) 메소드를 사용함. byte[] 안에 있는 데이터를 한번에 기록해 준다.
-            mOutputStream.write(msg.getBytes());  // 문자열 전송.
-        }catch(Exception e) {  // 문자열 전송 도중 오류가 발생한 경우
-            Toast.makeText(getApplicationContext(), "데이터 전송중 오류가 발생", Toast.LENGTH_LONG).show();
             finish();  // App 종료
         }
     }
