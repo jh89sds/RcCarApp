@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFF">
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/text_area"
+            app:layout_widthPercent="40%"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="AUTO"
+            android:textSize="40dp"
+            android:textColor="@color/colorPrimary"
+            />
+        <ImageButton
+            android:id="@+id/brightness_auto_on_off"
+            android:layout_alignParentEnd="true"
+            app:layout_heightPercent="30%"
+            app:layout_widthPercent="60%"
+            android:background="#FFFF"
+            android:tint="@color/colorPrimary"
+            android:scaleType="fitCenter"
+            android:padding="50dp"
+            android:src="@drawable/ic_brightness_auto"
+            />
+    </android.support.percent.PercentRelativeLayout>
+</RelativeLayout>
